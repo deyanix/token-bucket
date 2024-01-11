@@ -1,10 +1,31 @@
 public class TokenBucketSimulationConfiguration {
+	/**
+	 * Bucket capacity [B]
+	 */
 	private long bucketCapacity = 105L;
+	/**
+	 * Bucket refilling rate [B/s]
+	 */
 	private double bucketRefillRate = 5d;
+	/**
+	 * Bucket refilling amount [B]
+	 */
 	private long bucketRefillAmount = 1L;
+	/**
+	 * Inbound packet rate [B/s]
+	 */
 	private double packetArrivalRate = 500d;
+	/**
+	 * Packet size [B]
+	 */
 	private long packetSize = 100L;
+	/**
+	 * Simulation time [s]
+	 */
 	private double simulationEndTime = 100d;
+	/**
+	 * Service rate (from packet arrival to departure) [B/s]
+	 */
 	private double serviceRate = 100d;
 
 	public long getBucketCapacity() {

@@ -2,7 +2,6 @@ import java.util.LinkedList;
 
 public class TokenBucketSimulation {
 	private final TokenBucket bucket;
-	private final LinkedList<Long> arrivalTimes = new LinkedList<>();
 	private final TokenBucketSimulationConfiguration configuration;
 	private final PoissonRandomizer randomizer;
 	private double now = 0;
@@ -17,15 +16,6 @@ public class TokenBucketSimulation {
 		this.bucket = new TokenBucket(configuration.getBucketCapacity());
 		this.configuration = configuration;
 		this.randomizer = new PoissonRandomizer(configuration.getPacketArrivalRate());
-	}
-
-	public void generateArrivals() {
-		long t = 0;
-		while (t < configuration.getEndTime()) {
-			t += randomizer.next();
-			arrivalTimes.add(t);
-		}
-		randomizer.showDistribution();
 	}
 
 	public void run() {

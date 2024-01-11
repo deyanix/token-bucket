@@ -6,9 +6,9 @@ public class Main {
 	public static void main(String[] args) {
 		TokenBucketSimulationConfiguration configuration = new TokenBucketSimulationConfiguration()
 				.setBucketCapacity(100)
-				.setBucketRefillRate(250)
+				.setBucketRefillRate(500)
 				.setPacketArrivalRate(500)
-				.setServiceRate(100000);
+				.setServiceRate(1000);
 		TokenBucketSimulation simulation = new TokenBucketSimulation(configuration);
 		simulation.run();
 		System.out.printf("%f", simulation.getTransmittedPacketsRatio());
