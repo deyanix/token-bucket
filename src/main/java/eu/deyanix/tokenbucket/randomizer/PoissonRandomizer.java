@@ -1,3 +1,5 @@
+package eu.deyanix.tokenbucket.randomizer;
+
 import org.apache.commons.math3.distribution.PoissonDistribution;
 
 import java.util.Map;

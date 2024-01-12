@@ -1,10 +1,12 @@
+package eu.deyanix.tokenbucket;
+
 public class TokenBucketSimulationConfiguration {
 	/**
 	 * Bucket capacity [B]
 	 */
 	private long bucketCapacity = 105L;
 	/**
-	 * Bucket refilling rate [B/s]
+	 * Bucket refilling rate [(bucketRefillAmount) B/s]
 	 */
 	private double bucketRefillRate = 5d;
 	/**

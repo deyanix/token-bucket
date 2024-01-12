@@ -1,3 +1,5 @@
+package eu.deyanix.tokenbucket;
+
 public class TokenBucket {
 	private long capacity;
 	private long kept = 0;

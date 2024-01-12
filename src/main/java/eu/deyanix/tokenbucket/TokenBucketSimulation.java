@@ -1,4 +1,6 @@
-import java.util.LinkedList;
+package eu.deyanix.tokenbucket;
+
+import eu.deyanix.tokenbucket.randomizer.PoissonRandomizer;
 
 public class TokenBucketSimulation {
 	private final TokenBucket bucket;
@@ -7,8 +9,6 @@ public class TokenBucketSimulation {
 	private double now = 0;
 	private double nextRefill = 0;
 	private double nextArrival = 0;
-	private double nextDeparture = Long.MAX_VALUE;
-	private long waiting = 0;
 
 	private long arrivalPackets = 0, droppedPackets = 0, transmittedPackets = 0;
 
@@ -20,44 +20,28 @@ public class TokenBucketSimulation {
 
 	public void run() {
 		while (now < configuration.getEndTime()) {
-			if (nextRefill < nextArrival && nextRefill < nextDeparture) {
+			if (nextRefill < nextArrival) {
 				now = nextRefill;
 				nextRefill += 1/configuration.getBucketRefillRate();
 
 				bucket.refill(configuration.getBucketRefillAmount());
-				System.out.printf("Refill bucket (nextRefill=%f)", nextRefill);
-				System.out.println();
-			} else if (nextArrival < nextDeparture) {
-				now = nextArrival;
-				nextArrival += 1d/randomizer.next();
-
-				if (waiting == 0) {
-					nextDeparture = now + configuration.getPacketSize()/configuration.getServiceRate();
-				}
-				arrivalPackets++;
-				waiting++;
-				System.out.print("Arrival packet");
-				System.out.printf("(waiting=%d, tokens=%d, nextArrival=%f, nextDeparture=%f)", waiting, bucket.getKept(), nextArrival, nextDeparture);
-				System.out.println();
+//				System.out.print("Refill bucket ");
+//				System.out.printf("(tokens=%d, nextRefill=%f)", bucket.getKept(), nextRefill);
+//				System.out.println();
 			} else {
-				now = nextDeparture;
+				now = nextArrival;
+				nextArrival += 1d;
 
-				if (bucket.consume(configuration.getPacketSize())) {
+				if (bucket.consume(randomizer.next())) {
 					transmittedPackets++;
 				} else {
 					droppedPackets++;
 				}
-				waiting--;
+				arrivalPackets++;
 
-				if (waiting > 0) {
-					nextDeparture = now + configuration.getPacketSize()/configuration.getServiceRate();
-				} else {
-					nextDeparture = Long.MAX_VALUE;
-				}
-
-				System.out.print("Departure packet");
-				System.out.printf("(waiting=%d, tokens=%d, nextDeparture=%f)", waiting, bucket.getKept(), nextDeparture);
-				System.out.println();
+//				System.out.print("Departure packet ");
+//				System.out.printf("(tokens=%d)", bucket.getKept());
+//				System.out.println();
 			}
 		}
 	}
