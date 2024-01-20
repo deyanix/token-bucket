@@ -1,62 +1,57 @@
 package eu.deyanix.tokenbucket;
 
-import java.util.Random;
+import eu.deyanix.tokenbucket.randomizer.ExponentialRandomizer;
+
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.DoubleStream;
 
 public class Main {
-	private static final Random RANDOM = new Random(12213542552L);
+	public static void histogram() {
+		int length = 1_000_000;
+		List<Double> values = new ArrayList<>(length);
+		ExponentialRandomizer randomizer = new ExponentialRandomizer(0.25);
+		for (int i = 0; i < length; i++) {
+			values.add(randomizer.next());
+		}
 
-	public static void main(String[] args) {
+		double min = Math.floor(Collections.min(values));
+		double step = 0.5;
+
+		values.stream()
+				.map((val) -> (int) Math.floor((val - min) / step))
+				.map((val) -> ((2*val + 1) / 2d) * step)
+				.collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))
+				.forEach((bar, occurs) -> System.out.printf("%f;%d\n\r", bar, occurs));
+	}
+
+	public static void main(String[] args) throws IOException {
 		for (int i = 0; i < 100; i++) {
-			for (int j = i; j < 100; j++) {
+			for (int j = 0; j < 500; j++) {
 				TokenBucketSimulationConfiguration configuration = new TokenBucketSimulationConfiguration()
-						.setSimulationEndTime(1000)
-						.setBucketCapacity(750 + j * 5)
-						.setBucketRefillRate(600 + i * 5)
-						.setBucketRefillAmount(1)
-						.setPacketArrivalRate(750)
-						.setServiceRate(1000);
+						.setSimulationEndTime(100)
+						.setBucketCapacity(100 + j*10)
+						.setBucketRefillRate(48000 + i*50)
+						.setPacketArrivalRate(500)
+						.setPacketSize(100);
 				TokenBucketSimulation simulation = new TokenBucketSimulation(configuration);
 				simulation.run();
 				if (simulation.getTransmittedPacketsRatio() >= 0.9) {
-					System.out.printf("%f;%f;%d", configuration.getPacketArrivalRate(), configuration.getBucketRefillRate(), configuration.getBucketCapacity());
+					System.out.printf("%f;%f;%d", simulation.getTransmittedPacketsRatio(), configuration.getBucketRefillRate(), configuration.getBucketCapacity());
 					System.out.println();
 					break;
 				}
 			}
 		}
-
-
-
-//		System.out.printf("All packets: %d\n", simulation.getArrivalPackets());
-//		System.out.printf("Transmitted packets: %d\n", simulation.getTransmittedPackets());
-//		System.out.printf("Dropped packets: %d\n", simulation.getDroppedPackets());
-//		System.out.printf("Radio: %f\n", simulation.getTransmittedPacketsRatio());
-
-//		for (int i = 1; i < 400; i++) {
-//			eu.deyanix.tokenbucket.TokenBucketSimulationConfiguration configuration = new eu.deyanix.tokenbucket.TokenBucketSimulationConfiguration()
-//					.setBucketCapacity(i)
-//					.setPacketArrivalRate(500);
-//			eu.deyanix.tokenbucket.TokenBucketSimulation simulation = new eu.deyanix.tokenbucket.TokenBucketSimulation(configuration);
-//			simulation.run();
-//			if (simulation.getTransmittedPacketsRatio() >= 0.9) {
-//				System.out.printf("A %d %f", i, simulation.getTransmittedPacketsRatio());
-//				System.out.println();
-//				break;
-//			}
-//		}
-//
-//		for (int i = 1; i < 400; i++) {
-//			eu.deyanix.tokenbucket.TokenBucketSimulationConfiguration configuration = new eu.deyanix.tokenbucket.TokenBucketSimulationConfiguration()
-//					.setBucketCapacity(i)
-//					.setPacketArrivalRate(400);
-//			eu.deyanix.tokenbucket.TokenBucketSimulation simulation = new eu.deyanix.tokenbucket.TokenBucketSimulation(configuration);
-//			simulation.run();
-//			if (simulation.getTransmittedPacketsRatio() >= 0.9) {
-//				System.out.printf("B %d %f", i, simulation.getTransmittedPacketsRatio());
-//				System.out.println();
-//				break;
-//			}
-//		}
-
 	}
 }

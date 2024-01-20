@@ -4,14 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9169e331-c4ce-4b20-97c4-94e2caa3b336" name="Changes" comment="Added descriptions">
-      <change afterPath="$PROJECT_DIR$/src/main/java/eu/deyanix/tokenbucket/randomizer/ExponentialRandomizer.java" afterDir="false" />
+    <list default="true" id="9169e331-c4ce-4b20-97c4-94e2caa3b336" name="Changes" comment="Simplify simulation">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/eu/deyanix/tokenbucket/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/PoissonRandomizer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/eu/deyanix/tokenbucket/randomizer/PoissonRandomizer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/TokenBucket.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/eu/deyanix/tokenbucket/TokenBucket.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/TokenBucketSimulation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/eu/deyanix/tokenbucket/TokenBucketSimulation.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/TokenBucketSimulationConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/eu/deyanix/tokenbucket/TokenBucketSimulationConfiguration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/eu/deyanix/tokenbucket/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/eu/deyanix/tokenbucket/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/eu/deyanix/tokenbucket/TokenBucketSimulation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/eu/deyanix/tokenbucket/TokenBucketSimulation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/eu/deyanix/tokenbucket/TokenBucketSimulationConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/eu/deyanix/tokenbucket/TokenBucketSimulationConfiguration.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -60,6 +57,9 @@
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;editor.preferences.appearance&quot;,
     &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
@@ -96,7 +96,11 @@
       <updated>1702139387050</updated>
       <workItem from="1702139387901" duration="14035000" />
       <workItem from="1705001138217" duration="6903000" />
-      <workItem from="1705049923398" duration="819000" />
+      <workItem from="1705049923398" duration="1432000" />
+      <workItem from="1705055261303" duration="4177000" />
+      <workItem from="1705085440844" duration="2628000" />
+      <workItem from="1705750212619" duration="2817000" />
+      <workItem from="1705776340088" duration="1574000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit">
       <option name="closed" value="true" />
@@ -114,7 +118,15 @@
       <option name="project" value="LOCAL" />
       <updated>1705004140428</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Simplify simulation">
+      <option name="closed" value="true" />
+      <created>1705050991919</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1705050991919</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -123,6 +135,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Initial commit" />
     <MESSAGE value="Added descriptions" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added descriptions" />
+    <MESSAGE value="Simplify simulation" />
+    <option name="LAST_COMMIT_MESSAGE" value="Simplify simulation" />
   </component>
 </project>

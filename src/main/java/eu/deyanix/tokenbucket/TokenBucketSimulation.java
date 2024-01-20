@@ -1,47 +1,35 @@
 package eu.deyanix.tokenbucket;
 
-import eu.deyanix.tokenbucket.randomizer.PoissonRandomizer;
+import eu.deyanix.tokenbucket.randomizer.ExponentialRandomizer;
 
 public class TokenBucketSimulation {
 	private final TokenBucket bucket;
 	private final TokenBucketSimulationConfiguration configuration;
-	private final PoissonRandomizer randomizer;
+	private final ExponentialRandomizer randomizer;
 	private double now = 0;
-	private double nextRefill = 0;
-	private double nextArrival = 0;
+	private double nextArrival = 0, nextTime = 0;
 
-	private long arrivalPackets = 0, droppedPackets = 0, transmittedPackets = 0;
+	private long droppedPackets = 0, transmittedPackets = 0;
 
 	public TokenBucketSimulation(TokenBucketSimulationConfiguration configuration) {
 		this.bucket = new TokenBucket(configuration.getBucketCapacity());
 		this.configuration = configuration;
-		this.randomizer = new PoissonRandomizer(configuration.getPacketArrivalRate());
+		this.randomizer = new ExponentialRandomizer(configuration.getPacketArrivalRate());
 	}
 
 	public void run() {
 		while (now < configuration.getEndTime()) {
-			if (nextRefill < nextArrival) {
-				now = nextRefill;
-				nextRefill += 1/configuration.getBucketRefillRate();
+			long newTokens = (long) (nextTime * configuration.getBucketRefillRate());
+			bucket.refill(newTokens);
+			now = nextArrival;
 
-				bucket.refill(configuration.getBucketRefillAmount());
-//				System.out.print("Refill bucket ");
-//				System.out.printf("(tokens=%d, nextRefill=%f)", bucket.getKept(), nextRefill);
-//				System.out.println();
+			nextTime = randomizer.next();
+			nextArrival += nextTime;
+
+			if (bucket.consume(configuration.getPacketSize())) {
+				transmittedPackets++;
 			} else {
-				now = nextArrival;
-				nextArrival += 1d;
-
-				if (bucket.consume(randomizer.next())) {
-					transmittedPackets++;
-				} else {
-					droppedPackets++;
-				}
-				arrivalPackets++;
-
-//				System.out.print("Departure packet ");
-//				System.out.printf("(tokens=%d)", bucket.getKept());
-//				System.out.println();
+				droppedPackets++;
 			}
 		}
 	}
@@ -55,7 +43,7 @@ public class TokenBucketSimulation {
 	}
 
 	public long getArrivalPackets() {
-		return arrivalPackets;
+		return transmittedPackets + droppedPackets;
 	}
 
 	public double getTransmittedPacketsRatio() {

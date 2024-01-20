@@ -6,13 +6,9 @@ public class TokenBucketSimulationConfiguration {
 	 */
 	private long bucketCapacity = 105L;
 	/**
-	 * Bucket refilling rate [(bucketRefillAmount) B/s]
+	 * Bucket refilling rate [B/s]
 	 */
 	private double bucketRefillRate = 5d;
-	/**
-	 * Bucket refilling amount [B]
-	 */
-	private long bucketRefillAmount = 1L;
 	/**
 	 * Inbound packet rate [B/s]
 	 */
@@ -25,10 +21,6 @@ public class TokenBucketSimulationConfiguration {
 	 * Simulation time [s]
 	 */
 	private double simulationEndTime = 100d;
-	/**
-	 * Service rate (from packet arrival to departure) [B/s]
-	 */
-	private double serviceRate = 100d;
 
 	public long getBucketCapacity() {
 		return bucketCapacity;
@@ -48,15 +40,6 @@ public class TokenBucketSimulationConfiguration {
 		return this;
 	}
 
-	public long getBucketRefillAmount() {
-		return bucketRefillAmount;
-	}
-
-	public TokenBucketSimulationConfiguration setBucketRefillAmount(long bucketRefillAmount) {
-		this.bucketRefillAmount = bucketRefillAmount;
-		return this;
-	}
-
 	public double getPacketArrivalRate() {
 		return packetArrivalRate;
 	}
@@ -72,15 +55,6 @@ public class TokenBucketSimulationConfiguration {
 
 	public TokenBucketSimulationConfiguration setSimulationEndTime(double simulationEndTime) {
 		this.simulationEndTime = simulationEndTime;
-		return this;
-	}
-
-	public double getServiceRate() {
-		return serviceRate;
-	}
-
-	public TokenBucketSimulationConfiguration setServiceRate(double serviceRate) {
-		this.serviceRate = serviceRate;
 		return this;
 	}
 
