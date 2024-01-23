@@ -1,26 +1,20 @@
 package eu.deyanix.tokenbucket;
 
-import eu.deyanix.tokenbucket.randomizer.ExponentialRandomizer;
+import eu.deyanix.tokenbucket.trafficgenerator.ExponentialTrafficGenerator;
+import eu.deyanix.tokenbucket.trafficgenerator.UniformTrafficGenerator;
 
-import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintStream;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-import java.util.stream.DoubleStream;
 
 public class Main {
 	public static void histogram() {
 		int length = 1_000_000;
 		List<Double> values = new ArrayList<>(length);
-		ExponentialRandomizer randomizer = new ExponentialRandomizer(0.25);
+		ExponentialTrafficGenerator randomizer = new ExponentialTrafficGenerator(0.25);
 		for (int i = 0; i < length; i++) {
 			values.add(randomizer.next());
 		}
@@ -35,19 +29,23 @@ public class Main {
 				.forEach((bar, occurs) -> System.out.printf("%f;%d\n\r", bar, occurs));
 	}
 
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) {
+		double mean = 500;
+		System.out.printf("λ = %d", (int) mean);
+		System.out.println();
+
 		for (int i = 0; i < 100; i++) {
-			for (int j = 0; j < 500; j++) {
+			for (int j = 0; j < 1000; j++) {
 				TokenBucketSimulationConfiguration configuration = new TokenBucketSimulationConfiguration()
-						.setSimulationEndTime(100)
+						.setSimulationEndTime(500)
 						.setBucketCapacity(100 + j*10)
-						.setBucketRefillRate(48000 + i*50)
-						.setPacketArrivalRate(500)
-						.setPacketSize(100);
+						.setBucketRefillRate(45500 + i*500)
+						.setPacketSize(100)
+						.setTrafficGenerator(new UniformTrafficGenerator(mean));
 				TokenBucketSimulation simulation = new TokenBucketSimulation(configuration);
 				simulation.run();
 				if (simulation.getTransmittedPacketsRatio() >= 0.9) {
-					System.out.printf("%f;%f;%d", simulation.getTransmittedPacketsRatio(), configuration.getBucketRefillRate(), configuration.getBucketCapacity());
+					System.out.printf("%d;%f", configuration.getBucketCapacity(), configuration.getBucketRefillRate());
 					System.out.println();
 					break;
 				}

@@ -1,12 +1,12 @@
-package eu.deyanix.tokenbucket.randomizer;
+package eu.deyanix.tokenbucket.trafficgenerator;
 
 import java.util.Random;
 
-public class ExponentialRandomizer {
+public class ExponentialTrafficGenerator extends TrafficGenerator {
 	private final Random random = new Random();
 	private final double lambda;
 
-	public ExponentialRandomizer(double lambda) {
+	public ExponentialTrafficGenerator(double lambda) {
 		this.lambda = lambda;
 	}
 

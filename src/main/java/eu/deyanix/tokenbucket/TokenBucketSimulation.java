@@ -1,11 +1,10 @@
 package eu.deyanix.tokenbucket;
 
-import eu.deyanix.tokenbucket.randomizer.ExponentialRandomizer;
+import eu.deyanix.tokenbucket.trafficgenerator.ExponentialTrafficGenerator;
 
 public class TokenBucketSimulation {
 	private final TokenBucket bucket;
 	private final TokenBucketSimulationConfiguration configuration;
-	private final ExponentialRandomizer randomizer;
 	private double now = 0;
 	private double nextArrival = 0, nextTime = 0;
 
@@ -14,7 +13,6 @@ public class TokenBucketSimulation {
 	public TokenBucketSimulation(TokenBucketSimulationConfiguration configuration) {
 		this.bucket = new TokenBucket(configuration.getBucketCapacity());
 		this.configuration = configuration;
-		this.randomizer = new ExponentialRandomizer(configuration.getPacketArrivalRate());
 	}
 
 	public void run() {
@@ -23,7 +21,7 @@ public class TokenBucketSimulation {
 			bucket.refill(newTokens);
 			now = nextArrival;
 
-			nextTime = randomizer.next();
+			nextTime = configuration.getTrafficGenerator().next();
 			nextArrival += nextTime;
 
 			if (bucket.consume(configuration.getPacketSize())) {

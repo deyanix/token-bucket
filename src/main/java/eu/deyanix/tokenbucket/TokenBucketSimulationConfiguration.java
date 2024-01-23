@@ -1,5 +1,7 @@
 package eu.deyanix.tokenbucket;
 
+import eu.deyanix.tokenbucket.trafficgenerator.TrafficGenerator;
+
 public class TokenBucketSimulationConfiguration {
 	/**
 	 * Bucket capacity [B]
@@ -10,10 +12,6 @@ public class TokenBucketSimulationConfiguration {
 	 */
 	private double bucketRefillRate = 5d;
 	/**
-	 * Inbound packet rate [B/s]
-	 */
-	private double packetArrivalRate = 500d;
-	/**
 	 * Packet size [B]
 	 */
 	private long packetSize = 100L;
@@ -21,6 +19,10 @@ public class TokenBucketSimulationConfiguration {
 	 * Simulation time [s]
 	 */
 	private double simulationEndTime = 100d;
+	/**
+	 * Traffic generator (np. exponential, uniform)
+	 */
+	private TrafficGenerator trafficGenerator;
 
 	public long getBucketCapacity() {
 		return bucketCapacity;
@@ -40,15 +42,6 @@ public class TokenBucketSimulationConfiguration {
 		return this;
 	}
 
-	public double getPacketArrivalRate() {
-		return packetArrivalRate;
-	}
-
-	public TokenBucketSimulationConfiguration setPacketArrivalRate(double packetArrivalRate) {
-		this.packetArrivalRate = packetArrivalRate;
-		return this;
-	}
-
 	public double getEndTime() {
 		return simulationEndTime;
 	}
@@ -64,6 +57,15 @@ public class TokenBucketSimulationConfiguration {
 
 	public TokenBucketSimulationConfiguration setPacketSize(long packetSize) {
 		this.packetSize = packetSize;
+		return this;
+	}
+
+	public TrafficGenerator getTrafficGenerator() {
+		return trafficGenerator;
+	}
+
+	public TokenBucketSimulationConfiguration setTrafficGenerator(TrafficGenerator trafficGenerator) {
+		this.trafficGenerator = trafficGenerator;
 		return this;
 	}
 }
